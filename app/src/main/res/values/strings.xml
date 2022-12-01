@@ -1,0 +1,40 @@
+<!--
+  ~ Copyright (c) 2022
+  ~ David de Andrés and Juan Carlos Ruiz
+  ~ Development of apps for mobile devices
+  ~ Universitat Politècnica de València
+  -->
+
+<resources>
+    <string name="app_name">Ex10_Fragments</string>
+    <!--Strings related to the Fragments-->
+    <string name="hello_world">Hello World!</string>
+    <string name="hint_user_name">User Name</string>
+    <string name="hint_password">Password</string>
+    <string name="button_login">Login</string>
+    <string name="hint_sign_in_user_name">Select a user name</string>
+    <string name="hint_sign_in_password">Select a password</string>
+    <string name="hint_sign_in_repeat_password">Repeat the password</string>
+    <string name="hint_sign_in_email">Introduce your email address</string>
+    <string name="button_sign_in">Sign in</string>
+    <!--Strings related to the DialogFragment-->
+    <string name="dialog_message">Are you sure the you want to exit this application?</string>
+    <!--Strings related to the MainActivity-->
+    <string name="main_login">Login</string>
+    <string name="main_sign_in">Sign in</string>
+    <string name="main_clear">Clear</string>
+    <string name="main_list_names">List</string>
+    <string name="main_grid_images">Grid</string>
+    <!--Strings related to the menus-->
+    <string name="menu_exit">Exit</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_fragment_login">Option Login</string>
+    <string name="menu_fragment_signin">Option Sign in</string>
+    <string name="menu_fragment_list">Option List</string>
+    <string name="menu_fragment_grid">Option Grid</string>
+    <!--Strings related to the PreferenceFragment-->
+    <string name="prefs_user_name_title">User name</string>
+    <string name="prefs_user_name_summary">
+        Name that identifies the user within this application</string>
+    <string name="prefs_user_name_hint">Introduce your user name</string>
+</resources>
