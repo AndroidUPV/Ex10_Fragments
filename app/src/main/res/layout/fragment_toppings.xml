@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2022
+  ~ David de Andrés and Juan Carlos Ruiz
+  ~ Development of apps for mobile devices
+  ~ Universitat Politècnica de València
+  -->
+
+<!--Let the use select the topping for the desired Froyo-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context=".ui.fragments.SizeFragment">
+
+    <!--RadioButtons to select the topping for the Froyo-->
+    <RadioGroup
+        android:id="@+id/rgToppings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/rbStrawberries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/strawberries"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rbKiwi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/kiwi"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rbAlmonds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/almonds"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rbOreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/oreo"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvToppingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toppings_title"
+        android:textColor="@color/purple_700"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/rgToppings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--Button to cancel the order-->
+    <Button
+        android:id="@+id/bToppingsCancel"
+        style="?materialButtonOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--Button to proceed to the next screen-->
+    <Button
+        android:id="@+id/bToppingsNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

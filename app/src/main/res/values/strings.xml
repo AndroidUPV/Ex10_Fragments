@@ -7,34 +7,38 @@
 
 <resources>
     <string name="app_name">Ex10_Fragments</string>
-    <!--Strings related to the Fragments-->
-    <string name="hello_world">Hello World!</string>
-    <string name="hint_user_name">User Name</string>
-    <string name="hint_password">Password</string>
-    <string name="button_login">Login</string>
-    <string name="hint_sign_in_user_name">Select a user name</string>
-    <string name="hint_sign_in_password">Select a password</string>
-    <string name="hint_sign_in_repeat_password">Repeat the password</string>
-    <string name="hint_sign_in_email">Introduce your email address</string>
-    <string name="button_sign_in">Sign in</string>
-    <!--Strings related to the DialogFragment-->
-    <string name="dialog_message">Are you sure the you want to exit this application?</string>
-    <!--Strings related to the MainActivity-->
-    <string name="main_login">Login</string>
-    <string name="main_sign_in">Sign in</string>
-    <string name="main_clear">Clear</string>
-    <string name="main_list_names">List</string>
-    <string name="main_grid_images">Grid</string>
-    <!--Strings related to the menus-->
-    <string name="menu_exit">Exit</string>
-    <string name="menu_settings">Settings</string>
-    <string name="menu_fragment_login">Option Login</string>
-    <string name="menu_fragment_signin">Option Sign in</string>
-    <string name="menu_fragment_list">Option List</string>
-    <string name="menu_fragment_grid">Option Grid</string>
-    <!--Strings related to the PreferenceFragment-->
-    <string name="prefs_user_name_title">User name</string>
-    <string name="prefs_user_name_summary">
-        Name that identifies the user within this application</string>
-    <string name="prefs_user_name_hint">Introduce your user name</string>
+    <!--Strings related to generic Buttons-->
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <!--Strings related to the SizeFragment-->
+    <string name="size_title">Select the size of your Froyo:</string>
+    <string name="size_small">Small</string>
+    <string name="size_medium">Medium</string>
+    <string name="size_large">Large</string>
+    <string name="size_extra_large">XXL</string>
+    <string name="empty_size">You must select the size of your Froyo before proceeding</string>
+    <!--Strings related to the ToppingsFragment-->
+    <string name="toppings_title">Select the toppings for your Froyo:</string>
+    <string name="strawberries">Strawberries</string>
+    <string name="kiwi">Wiki</string>
+    <string name="almonds">Almond crocanti</string>
+    <string name="oreo">Oreo</string>
+    <string name="empty_toppings">You must select the toppings for your Froyo before proceeding</string>
+    <!--Strings related to the SauceFragment-->
+    <string name="sauce_title">Select the sauce for your Froyo:</string>
+    <string name="chocolate">Dark chocolate</string>
+    <string name="fruits">Fruits of the forest</string>
+    <string name="honey">Honey</string>
+    <string name="mango">Mango</string>
+    <string name="empty_sauce">You must select the sauce of your Froyo before proceeding</string>
+    <!--Strings related to the WelcomeFragment-->
+    <string name="welcome">Welcome to Froyo\'s</string>
+    <string name="froyo_description">Froyo</string>
+    <string name="select">Customize your own Froyo</string>
+    <!--Strings related to the CheckoutFragment-->
+    <string name="checkout_title">Please, review your order:</string>
+    <string name="checkout_size">Size: %1$s</string>
+    <string name="checkout_toppings">Toppings: %1$s</string>
+    <string name="checkout_sauce">Sauce: %1$s</string>
+    <string name="submit">Submit</string>
 </resources>

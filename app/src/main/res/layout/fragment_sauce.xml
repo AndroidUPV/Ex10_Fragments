@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2022
+  ~ David de Andrés and Juan Carlos Ruiz
+  ~ Development of apps for mobile devices
+  ~ Universitat Politècnica de València
+  -->
+
+<!--Let the use select the sauce for the desired Froyo-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context=".ui.fragments.SizeFragment">
+
+    <!--RadioButtons to select the sauce for the Froyo-->
+    <RadioGroup
+        android:id="@+id/rgSauce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/rbChocolate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/chocolate"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rbFruit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fruits"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rbHoney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/honey"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rbMango"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mango"
+            android:textColor="@color/teal_700"
+            android:textSize="18sp" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tvSauceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sauce_title"
+        android:textColor="@color/purple_700"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/rgSauce"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--Button to cancel the order-->
+    <Button
+        android:id="@+id/bSauceCancel"
+        style="?materialButtonOutlinedStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--Button to proceed to the next screen-->
+    <Button
+        android:id="@+id/bSauceNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
