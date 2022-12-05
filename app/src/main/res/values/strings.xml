@@ -32,7 +32,7 @@
     <string name="mango">Mango</string>
     <string name="empty_sauce">You must select the sauce of your Froyo before proceeding</string>
     <!--Strings related to the WelcomeFragment-->
-    <string name="welcome">Welcome to Froyo\'s</string>
+    <string name="welcome">Hi %1$s,\nWelcome to Froyo\'s</string>
     <string name="froyo_description">Froyo</string>
     <string name="select">Customize your own Froyo</string>
     <!--Strings related to the CheckoutFragment-->

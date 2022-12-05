@@ -9,6 +9,7 @@ package upv.dadm.ex10_fragments.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.ActivityMainBinding
@@ -32,12 +33,16 @@ class MainActivity : AppCompatActivity() {
         // Set the activity content to the root element of the generated view
         setContentView(binding.root)
 
+        // Define a Bundle to pass the current user name to the welcome screen
+        // This emulates that the user has actually logged in
+        val bundle = bundleOf(USERNAME to "David")
         // Execute operations on a FragmentTransaction and commit it
         supportFragmentManager.commit {
             // Optimise animations
             setReorderingAllowed(true)
             // Replace the Fragment in the provide container with and instance of WelcomeFragment
-            replace(R.id.fcvMain, WelcomeFragment())
+            // with the provided arguments
+            replace(R.id.fcvMain, WelcomeFragment::class.java, bundle)
             // Add the transaction to the BackStack, so it can be reversed with the Back button
             addToBackStack(WELCOME)
         }
@@ -53,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             // Optimise animations
             setReorderingAllowed(true)
             // Replace the Fragment in the provide container with and instance of SizeFragment
-            replace(R.id.fcvMain, SizeFragment())
+            replace(R.id.fcvMain, SizeFragment::class.java, null)
             // Add the transaction to the BackStack, so it can be reversed with the Back button
             addToBackStack(SIZE)
         }
@@ -68,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             // Optimise animations
             setReorderingAllowed(true)
             // Replace the Fragment in the provide container with and instance of ToppingsFragment
-            replace(R.id.fcvMain, ToppingsFragment())
+            replace(R.id.fcvMain, ToppingsFragment::class.java, null)
             // Add the transaction to the BackStack, so it can be reversed with the Back button
             addToBackStack(TOPPINGS)
         }
@@ -83,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             // Optimise animations
             setReorderingAllowed(true)
             // Replace the Fragment in the provide container with and instance of SauceFragment
-            replace(R.id.fcvMain, SauceFragment())
+            replace(R.id.fcvMain, SauceFragment::class.java, null)
             // Add the transaction to the BackStack, so it can be reversed with the Back button
             addToBackStack(SAUCE)
         }
@@ -98,7 +103,7 @@ class MainActivity : AppCompatActivity() {
             // Optimise animations
             setReorderingAllowed(true)
             // Replace the Fragment in the provide container with and instance of CheckoutFragment
-            replace(R.id.fcvMain, CheckoutFragment())
+            replace(R.id.fcvMain, CheckoutFragment::class.java, null)
             // Add the transaction to the BackStack, so it can be reversed with the Back button
             addToBackStack(CHECKOUT)
         }

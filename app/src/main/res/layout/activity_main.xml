@@ -5,9 +5,16 @@
   ~ Universitat Politècnica de València
   -->
 <!--Container that will hold all Fragments-->
-<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fcvMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.MainActivity" />
+    android:layout_gravity="center"
+    android:fillViewport="true"
+    tools:context=".ui.activities.MainActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcvMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</ScrollView>
