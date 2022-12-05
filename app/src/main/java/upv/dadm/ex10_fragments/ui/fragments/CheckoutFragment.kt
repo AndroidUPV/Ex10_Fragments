@@ -47,11 +47,11 @@ class CheckoutFragment : Fragment() {
         }
         // Display the selected topping according to the state in the ViewModel
         viewModel.topping.observe(viewLifecycleOwner) { topping ->
-            fragmentBinding.tvCheckoutTopping.text = topping
+            fragmentBinding.tvCheckoutTopping.text = getString(R.string.checkout_toppings, topping)
         }
         // Display the selected sauce according to the state in the ViewModel
         viewModel.sauce.observe(viewLifecycleOwner) { sauce ->
-            fragmentBinding.tvCheckoutSauce.text = sauce
+            fragmentBinding.tvCheckoutSauce.text = getString(R.string.checkout_sauce, sauce)
         }
 
         // Hold a reference to resource binding for later use

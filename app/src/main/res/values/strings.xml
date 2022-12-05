@@ -37,8 +37,8 @@
     <string name="select">Customize your own Froyo</string>
     <!--Strings related to the CheckoutFragment-->
     <string name="checkout_title">Please, review your order:</string>
-    <string name="checkout_size">Size: %1$s</string>
-    <string name="checkout_toppings">Toppings: %1$s</string>
-    <string name="checkout_sauce">Sauce: %1$s</string>
+    <string name="checkout_size">%1$s Froyo with</string>
+    <string name="checkout_toppings">%1$s and</string>
+    <string name="checkout_sauce">%1$s sauce</string>
     <string name="submit">Submit</string>
 </resources>
