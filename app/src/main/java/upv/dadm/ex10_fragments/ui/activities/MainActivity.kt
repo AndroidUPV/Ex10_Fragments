@@ -25,7 +25,9 @@ const val CHECKOUT = "upv.dadm.ex10_fragments.ui.activities.CHECKOUT"
 /**
  * Let users customize their Froyo (size, toppings, and sauce) and place their order.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+    SizeFragment.SizeCallback, ToppingsFragment.ToppingsCallback,
+    SauceFragment.SauceCallback, CheckoutFragment.CheckoutCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Get the automatically generated view binding for the layout resource
@@ -42,12 +44,53 @@ class MainActivity : AppCompatActivity() {
             setReorderingAllowed(true)
             // Replace the Fragment in the provide container with and instance of WelcomeFragment
             // with the provided arguments
-            replace(R.id.fcvMain, WelcomeFragment::class.java, bundle)
+            add(R.id.fcvMain, WelcomeFragment::class.java, bundle)
             // Add the transaction to the BackStack, so it can be reversed with the Back button
             addToBackStack(WELCOME)
         }
 
     }
+
+    // Implements the SizeFragmentCallback to manage the next Button click
+    override fun onSizeNextClicked() {
+        navigateToToppings()
+    }
+
+    // Implements the ToppingsFragmentCallback to manage the next Button click
+    override fun onToppingsNextClicked() {
+        navigateToSauce()
+    }
+
+    // Implements the SauceFragmentCallback to manage the next Button click
+    override fun onSauceNextClicked() {
+        navigateToCheckout()
+    }
+
+    // Implements the CheckoutFragmentCallback to manage the submit Button click
+    override fun onCheckoutSubmitClicked() {
+        navigateToWelcome()
+    }
+
+    // Implements the SizeFragmentCallback to manage the cancel Button click
+    override fun onSizeCancelClicked() {
+        navigateToWelcome()
+    }
+
+    // Implements the ToppingsFragmentCallback to manage the cancel Button click
+    override fun onToppingsCancelClicked() {
+        navigateToWelcome()
+    }
+
+    // Implements the SauceFragmentCallback to manage the cancel Button click
+    override fun onSauceCancelClicked() {
+        navigateToWelcome()
+    }
+
+    // Implements the CheckoutFragmentCallback to manage the cancel Button click
+    override fun onCheckoutCancelClicked() {
+        navigateToWelcome()
+    }
+
 
     /**
      * Navigates to the screen to select the size of the Froyo.
@@ -67,7 +110,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Navigates to the screen to select the toppings for the Froyo.
      */
-    fun navigateToToppings() {
+    private fun navigateToToppings() {
         // Execute operations on a FragmentTransaction and commit it
         supportFragmentManager.commit {
             // Optimise animations
@@ -82,7 +125,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Navigates to the screen to select the sauce for the Froyo.
      */
-    fun navigateToSauce() {
+    private fun navigateToSauce() {
         // Execute operations on a FragmentTransaction and commit it
         supportFragmentManager.commit {
             // Optimise animations
@@ -97,7 +140,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Navigates to the checkout screen to place the order.
      */
-    fun navigateToCheckout() {
+    private fun navigateToCheckout() {
         // Execute operations on a FragmentTransaction and commit it
         supportFragmentManager.commit {
             // Optimise animations
@@ -112,9 +155,8 @@ class MainActivity : AppCompatActivity() {
     /**
      * Navigates to the welcome screen.
      */
-    fun navigateToWelcome() {
+    private fun navigateToWelcome() {
         // Pop transactions from the BackStack until reaching, and including, that labelled WELCOME
         supportFragmentManager.popBackStack(WELCOME, 0)
     }
-
 }

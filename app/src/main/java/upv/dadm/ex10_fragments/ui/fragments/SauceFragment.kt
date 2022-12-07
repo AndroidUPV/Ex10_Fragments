@@ -7,6 +7,7 @@
 
 package upv.dadm.ex10_fragments.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.FragmentSauceBinding
-import upv.dadm.ex10_fragments.ui.activities.MainActivity
 import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
 
 /**
@@ -24,11 +24,23 @@ import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
  */
 class SauceFragment : Fragment() {
 
+    /**
+     * Defines the methods the Activity must implement to proceed to the next screen or
+     * go back to the welcome screen.
+     */
+    interface SauceCallback {
+        fun onSauceNextClicked()
+        fun onSauceCancelClicked()
+    }
+
     // Reference to a ViewModel shared between Fragments
     private val viewModel: FroyoViewModel by activityViewModels()
 
     // Reference to resource binding
     private var binding: FragmentSauceBinding? = null
+
+    // Reference to the interface implementation
+    private lateinit var callback: SauceCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +91,12 @@ class SauceFragment : Fragment() {
         return fragmentBinding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Get a reference to the interface implementation
+        callback = context as SauceCallback
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         // Clear resources to make them eligible for garbage collection
@@ -96,7 +114,7 @@ class SauceFragment : Fragment() {
      * Notifies the activity it must navigate to the screen for checkout.
      */
     private fun proceedToCheckout() {
-        (requireActivity() as MainActivity).navigateToCheckout()
+        callback.onSauceNextClicked()
     }
 
     /**
@@ -105,6 +123,7 @@ class SauceFragment : Fragment() {
      */
     private fun cancel() {
         viewModel.resetOrder()
-        (requireActivity() as MainActivity).navigateToWelcome()
+        callback.onSauceCancelClicked()
     }
+
 }

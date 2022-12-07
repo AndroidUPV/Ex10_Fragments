@@ -7,6 +7,7 @@
 
 package upv.dadm.ex10_fragments.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.FragmentCheckoutBinding
-import upv.dadm.ex10_fragments.ui.activities.MainActivity
 import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
 
 /**
@@ -23,11 +23,23 @@ import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
  */
 class CheckoutFragment : Fragment() {
 
+    /**
+     * Defines the methods the Activity must implement to proceed to the next screen or
+     * go back to the welcome screen.
+     */
+    interface CheckoutCallback {
+        fun onCheckoutSubmitClicked()
+        fun onCheckoutCancelClicked()
+    }
+
     // Reference to a ViewModel shared between Fragments
     private val viewModel: FroyoViewModel by activityViewModels()
 
     // Reference to resource binding
     private var binding: FragmentCheckoutBinding? = null
+
+    // Reference to the interface implementation
+    private lateinit var callback: CheckoutCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +72,12 @@ class CheckoutFragment : Fragment() {
         return fragmentBinding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Get a reference to the interface implementation
+        callback = context as CheckoutCallback
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         // Clear resources to make them eligible for garbage collection
@@ -73,7 +91,7 @@ class CheckoutFragment : Fragment() {
      */
     private fun submitOrder() {
         viewModel.resetOrder()
-        (requireActivity() as MainActivity).navigateToWelcome()
+        callback.onCheckoutSubmitClicked()
     }
 
     /**
@@ -82,7 +100,6 @@ class CheckoutFragment : Fragment() {
      */
     private fun cancel() {
         viewModel.resetOrder()
-        (requireActivity() as MainActivity).navigateToWelcome()
+        callback.onCheckoutCancelClicked()
     }
-
 }
