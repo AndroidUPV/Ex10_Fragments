@@ -35,20 +35,22 @@ class MainActivity : AppCompatActivity(),
         // Set the activity content to the root element of the generated view
         setContentView(binding.root)
 
-        // Define a Bundle to pass the current user name to the welcome screen
-        // This emulates that the user has actually logged in
-        val bundle = bundleOf(USERNAME to "David")
-        // Execute operations on a FragmentTransaction and commit it
-        supportFragmentManager.commit {
-            // Optimise animations
-            setReorderingAllowed(true)
-            // Replace the Fragment in the provide container with and instance of WelcomeFragment
-            // with the provided arguments
-            add(R.id.fcvMain, WelcomeFragment::class.java, bundle)
-            // Add the transaction to the BackStack, so it can be reversed with the Back button
-            addToBackStack(WELCOME)
+        // FragmentManager automatically saves and restores Fragment over configuration changes
+        if (savedInstanceState == null) {
+            // Define a Bundle to pass the current user name to the welcome screen
+            // This emulates that the user has actually logged in
+            val bundle = bundleOf(USERNAME to "David")
+            // Execute operations on a FragmentTransaction and commit it
+            supportFragmentManager.commit {
+                // Optimise animations
+                setReorderingAllowed(true)
+                // Replace the Fragment in the provide container with and instance of WelcomeFragment
+                // with the provided arguments
+                add(R.id.fcvMain, WelcomeFragment::class.java, bundle)
+                // Add the transaction to the BackStack, so it can be reversed with the Back button
+                addToBackStack(WELCOME)
+            }
         }
-
     }
 
     // Implements the SizeFragmentCallback to manage the next Button click
