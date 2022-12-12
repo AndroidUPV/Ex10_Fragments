@@ -21,7 +21,7 @@ import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
 /**
  * Displays a screen that lets the user submit or cancel the order.
  */
-class CheckoutFragment : Fragment() {
+class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDialogCallback {
 
     /**
      * Defines the methods the Activity must implement to proceed to the next screen or
@@ -48,8 +48,8 @@ class CheckoutFragment : Fragment() {
         // Get the automatically generated view binding for the layout resource
         val fragmentBinding = FragmentCheckoutBinding.inflate(layoutInflater)
 
-        // Cancel the order and navigate to the Welcome screen
-        fragmentBinding.bCancel.setOnClickListener { cancel() }
+        // Display a dialog to ask the user for confirmation before cancelling the order
+        fragmentBinding.bCancel.setOnClickListener { displayConfirmationDialog() }
         // Submit the order and navigate to the Welcome screen
         fragmentBinding.bSubmit.setOnClickListener { submitOrder() }
 
@@ -101,5 +101,22 @@ class CheckoutFragment : Fragment() {
     private fun cancel() {
         viewModel.resetOrder()
         callback.onCheckoutCancelClicked()
+    }
+
+    /**
+     * Displays a dialog asking the user for confirmation before cancelling the order.
+     */
+    private fun displayConfirmationDialog() {
+        ConfirmationDialogFragment().show(childFragmentManager, null)
+    }
+
+    // Implements the ConfirmationDialogCallback to deal with order cancellation
+    override fun onCancel() {
+        cancel()
+    }
+
+    // Implements the ConfirmationDialogCallback for the user to keep the order
+    override fun onDoNotCancel() {
+        // Do nothing, as the dialog is automatically dismissed
     }
 }

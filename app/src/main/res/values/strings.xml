@@ -41,4 +41,7 @@
     <string name="checkout_toppings">%1$s and</string>
     <string name="checkout_sauce">%1$s sauce</string>
     <string name="submit">Submit</string>
+    <string name="dialog_title">You are only one step away from a delicious Froyo.\nAre you sure that you want to cancel your order?</string>
+    <string name="dialog_yes">Yes, cancel my order</string>
+    <string name="dialog_no">No, I will think it twice</string>
 </resources>
