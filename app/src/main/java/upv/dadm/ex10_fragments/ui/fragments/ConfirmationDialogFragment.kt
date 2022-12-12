@@ -34,6 +34,7 @@ class ConfirmationDialogFragment : DialogFragment() {
         // Create the desired dialog
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.dialog_title)
+            .setMessage(R.string.dialog_message)
             .setPositiveButton(R.string.dialog_yes) { _, _ ->
                 // Yes, the user wants to cancel the order
                 callback.onCancel()
