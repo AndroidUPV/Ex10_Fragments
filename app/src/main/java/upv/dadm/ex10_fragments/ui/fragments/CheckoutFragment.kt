@@ -35,8 +35,11 @@ class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDial
     // Reference to a ViewModel shared between Fragments
     private val viewModel: FroyoViewModel by activityViewModels()
 
-    // Reference to resource binding
-    private var binding: FragmentCheckoutBinding? = null
+    // Backing property to resource binding
+    private var _binding: FragmentCheckoutBinding? = null
+
+    // Property valid between onCreateView() and onDestroyView()
+    private val binding get() = _binding!!
 
     // Reference to the interface implementation
     private lateinit var callback: CheckoutCallback
@@ -46,30 +49,9 @@ class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDial
         savedInstanceState: Bundle?
     ): View {
         // Get the automatically generated view binding for the layout resource
-        val fragmentBinding = FragmentCheckoutBinding.inflate(layoutInflater)
-
-        // Display a dialog to ask the user for confirmation before cancelling the order
-        fragmentBinding.bCancel.setOnClickListener { displayConfirmationDialog() }
-        // Submit the order and navigate to the Welcome screen
-        fragmentBinding.bSubmit.setOnClickListener { submitOrder() }
-
-        // Display the selected size according to the state in the ViewModel
-        viewModel.size.observe(viewLifecycleOwner) { size ->
-            fragmentBinding.tvCheckoutSize.text = getString(R.string.checkout_size, size)
-        }
-        // Display the selected topping according to the state in the ViewModel
-        viewModel.topping.observe(viewLifecycleOwner) { topping ->
-            fragmentBinding.tvCheckoutTopping.text = getString(R.string.checkout_toppings, topping)
-        }
-        // Display the selected sauce according to the state in the ViewModel
-        viewModel.sauce.observe(viewLifecycleOwner) { sauce ->
-            fragmentBinding.tvCheckoutSauce.text = getString(R.string.checkout_sauce, sauce)
-        }
-
-        // Hold a reference to resource binding for later use
-        binding = fragmentBinding
+        _binding = FragmentCheckoutBinding.inflate(layoutInflater)
         // Return the root element of the generated view
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onAttach(context: Context) {
@@ -78,10 +60,31 @@ class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDial
         callback = context as CheckoutCallback
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Display a dialog to ask the user for confirmation before cancelling the order
+        binding.bCancel.setOnClickListener { displayConfirmationDialog() }
+        // Submit the order and navigate to the Welcome screen
+        binding.bSubmit.setOnClickListener { submitOrder() }
+
+        // Display the selected size according to the state in the ViewModel
+        viewModel.size.observe(viewLifecycleOwner) { size ->
+            binding.tvCheckoutSize.text = getString(R.string.checkout_size, size)
+        }
+        // Display the selected topping according to the state in the ViewModel
+        viewModel.topping.observe(viewLifecycleOwner) { topping ->
+            binding.tvCheckoutTopping.text = getString(R.string.checkout_toppings, topping)
+        }
+        // Display the selected sauce according to the state in the ViewModel
+        viewModel.sauce.observe(viewLifecycleOwner) { sauce ->
+            binding.tvCheckoutSauce.text = getString(R.string.checkout_sauce, sauce)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         // Clear resources to make them eligible for garbage collection
-        binding = null
+        _binding = null
     }
 
     /**

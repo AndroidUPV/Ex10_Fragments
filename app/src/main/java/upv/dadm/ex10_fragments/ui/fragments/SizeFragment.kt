@@ -36,8 +36,11 @@ class SizeFragment : Fragment() {
     // Reference to a ViewModel shared between Fragments
     private val viewModel: FroyoViewModel by activityViewModels()
 
-    // Reference to resource binding
-    private var binding: FragmentSizeBinding? = null
+    // Backing property to resource binding
+    private var _binding: FragmentSizeBinding? = null
+
+    // Property valid between onCreateView() and onDestroyView()
+    private val binding get() = _binding!!
 
     // Reference to the interface implementation
     private lateinit var callback: SizeCallback
@@ -47,49 +50,9 @@ class SizeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Get the automatically generated view binding for the layout resource
-        val fragmentBinding = FragmentSizeBinding.inflate(layoutInflater)
-
-        // Set the size of the custom Froyo to small
-        fragmentBinding.rbSmall.setOnClickListener {
-            setSize(fragmentBinding.rbSmall.text.toString())
-        }
-        // Set the size of the custom Froyo to medium
-        fragmentBinding.rbMedium.setOnClickListener {
-            setSize(fragmentBinding.rbMedium.text.toString())
-        }
-        // Set the size of the custom Froyo to large
-        fragmentBinding.rbLarge.setOnClickListener {
-            setSize(fragmentBinding.rbLarge.text.toString())
-        }
-        // Set the size of the custom Froyo to extra large
-        fragmentBinding.rbExtraLarge.setOnClickListener {
-            setSize(fragmentBinding.rbExtraLarge.text.toString())
-        }
-
-        // Cancel the order and navigate to the Welcome screen
-        fragmentBinding.bSizeCancel.setOnClickListener { cancel() }
-        // Navigate to ToppingsFragment for the user to select the toppings of the Froyo
-        fragmentBinding.bSizeNext.setOnClickListener { selectToppings() }
-
-        // Set the selected size according to the state in the ViewModel
-        viewModel.size.observe(viewLifecycleOwner) { size ->
-            when (size) {
-                getString(R.string.size_small) -> fragmentBinding.rbSmall.isChecked = true
-                getString(R.string.size_medium) -> fragmentBinding.rbMedium.isChecked = true
-                getString(R.string.size_large) -> fragmentBinding.rbLarge.isChecked = true
-                getString(R.string.size_extra_large) ->
-                    fragmentBinding.rbExtraLarge.isChecked = true
-            }
-        }
-        // Enable the Button to proceed to the next screen when a size has been selected
-        viewModel.sizeSelected.observe(viewLifecycleOwner) { enabled ->
-            fragmentBinding.bSizeNext.isEnabled = enabled
-        }
-
-        // Hold a reference to resource binding for later use
-        binding = fragmentBinding
+        _binding = FragmentSizeBinding.inflate(layoutInflater)
         // Return the root element of the generated view
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onAttach(context: Context) {
@@ -98,10 +61,50 @@ class SizeFragment : Fragment() {
         callback = context as SizeCallback
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Set the size of the custom Froyo to small
+        binding.rbSmall.setOnClickListener {
+            setSize(binding.rbSmall.text.toString())
+        }
+        // Set the size of the custom Froyo to medium
+        binding.rbMedium.setOnClickListener {
+            setSize(binding.rbMedium.text.toString())
+        }
+        // Set the size of the custom Froyo to large
+        binding.rbLarge.setOnClickListener {
+            setSize(binding.rbLarge.text.toString())
+        }
+        // Set the size of the custom Froyo to extra large
+        binding.rbExtraLarge.setOnClickListener {
+            setSize(binding.rbExtraLarge.text.toString())
+        }
+
+        // Cancel the order and navigate to the Welcome screen
+        binding.bSizeCancel.setOnClickListener { cancel() }
+        // Navigate to ToppingsFragment for the user to select the toppings of the Froyo
+        binding.bSizeNext.setOnClickListener { selectToppings() }
+
+        // Set the selected size according to the state in the ViewModel
+        viewModel.size.observe(viewLifecycleOwner) { size ->
+            when (size) {
+                getString(R.string.size_small) -> binding.rbSmall.isChecked = true
+                getString(R.string.size_medium) -> binding.rbMedium.isChecked = true
+                getString(R.string.size_large) -> binding.rbLarge.isChecked = true
+                getString(R.string.size_extra_large) ->
+                    binding.rbExtraLarge.isChecked = true
+            }
+        }
+        // Enable the Button to proceed to the next screen when a size has been selected
+        viewModel.sizeSelected.observe(viewLifecycleOwner) { enabled ->
+            binding.bSizeNext.isEnabled = enabled
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         // Clear resources to make them eligible for garbage collection
-        binding = null
+        _binding = null
     }
 
     /**

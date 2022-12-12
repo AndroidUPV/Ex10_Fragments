@@ -25,8 +25,11 @@ const val USERNAME = "upv.dadm.ex10_fragments.ui.fragments.WelcomeFragment.USERN
  */
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 
-    // Reference to resource binding
-    private var binding: FragmentWelcomeBinding? = null
+    // Backing property to resource binding
+    private var _binding: FragmentWelcomeBinding? = null
+
+    // Property valid between onCreateView() and onDestroyView()
+    private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -46,25 +49,26 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         savedInstanceState: Bundle?
     ): View {
         // Get the automatically generated view binding for the layout resource
-        val fragmentBinding = FragmentWelcomeBinding.inflate(layoutInflater)
+        _binding = FragmentWelcomeBinding.inflate(layoutInflater)
+        // Return the root element of the generated view
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         // Retrieve the received arguments to personalise the welcome message for the user
-        fragmentBinding.tvWelcome.text =
+        binding.tvWelcome.text =
             getString(R.string.welcome, requireArguments().getString(USERNAME))
         // Navigate to SizeFragment for the user to select the size of the Froyo
-        fragmentBinding.bWelcomeNext.setOnClickListener {
+        binding.bWelcomeNext.setOnClickListener {
             navigateToSizeSelection()
         }
-
-        // Hold a reference to resource binding for later use
-        binding = fragmentBinding
-        // Return the root element of the generated view
-        return fragmentBinding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         // Clear resources to make them eligible for garbage collection
-        binding = null
+        _binding = null
     }
 
     /**

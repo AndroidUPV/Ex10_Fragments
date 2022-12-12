@@ -36,8 +36,11 @@ class ToppingsFragment : Fragment() {
     // Reference to a ViewModel shared between Fragments
     private val viewModel: FroyoViewModel by activityViewModels()
 
-    // Reference to resource binding
-    private var binding: FragmentToppingsBinding? = null
+    // Backing property to resource binding
+    private var _binding: FragmentToppingsBinding? = null
+
+    //Property valid between onCreateView() and onDestroyView()
+    private val binding get() = _binding!!
 
     // Reference to the interface implementation
     private lateinit var callback: ToppingsCallback
@@ -47,49 +50,9 @@ class ToppingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Get the automatically generated view binding for the layout resource
-        val fragmentBinding = FragmentToppingsBinding.inflate(layoutInflater)
-
-        // Set the topping of the custom Froyo to strawberries
-        fragmentBinding.rbStrawberries.setOnClickListener {
-            setTopping(fragmentBinding.rbStrawberries.text.toString())
-        }
-        // Set the topping of the custom Froyo to kiwi
-        fragmentBinding.rbKiwi.setOnClickListener {
-            setTopping(fragmentBinding.rbKiwi.text.toString())
-        }
-        // Set the topping of the custom Froyo to almonds
-        fragmentBinding.rbAlmonds.setOnClickListener {
-            setTopping(fragmentBinding.rbAlmonds.text.toString())
-        }
-        // Set the topping of the custom Froyo to oreo
-        fragmentBinding.rbOreo.setOnClickListener {
-            setTopping(fragmentBinding.rbOreo.text.toString())
-        }
-
-        // Cancel the order and navigate to the Welcome screen
-        fragmentBinding.bToppingsCancel.setOnClickListener { cancel() }
-        // Navigate to SauceFragment for the user to select the sauce of the Froyo
-        fragmentBinding.bToppingsNext.setOnClickListener { selectSauce() }
-
-        // Set the selected topping according to the state in the ViewModel
-        viewModel.topping.observe(viewLifecycleOwner) { topping ->
-            when (topping) {
-                getString(R.string.strawberries) -> fragmentBinding.rbStrawberries.isChecked = true
-                getString(R.string.kiwi) -> fragmentBinding.rbKiwi.isChecked = true
-                getString(R.string.almonds) -> fragmentBinding.rbAlmonds.isChecked = true
-                getString(R.string.oreo) ->
-                    fragmentBinding.rbOreo.isChecked = true
-            }
-        }
-        // Enable the Button to proceed to the next screen when a topping has been selected
-        viewModel.toppingSelected.observe(viewLifecycleOwner) { enabled ->
-            fragmentBinding.bToppingsNext.isEnabled = enabled
-        }
-
-        // Hold a reference to resource binding for later use
-        binding = fragmentBinding
+        _binding = FragmentToppingsBinding.inflate(layoutInflater)
         // Return the root element of the generated view
-        return fragmentBinding.root
+        return binding.root
     }
 
     override fun onAttach(context: Context) {
@@ -98,10 +61,50 @@ class ToppingsFragment : Fragment() {
         callback = context as ToppingsCallback
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Set the topping of the custom Froyo to strawberries
+        binding.rbStrawberries.setOnClickListener {
+            setTopping(binding.rbStrawberries.text.toString())
+        }
+        // Set the topping of the custom Froyo to kiwi
+        binding.rbKiwi.setOnClickListener {
+            setTopping(binding.rbKiwi.text.toString())
+        }
+        // Set the topping of the custom Froyo to almonds
+        binding.rbAlmonds.setOnClickListener {
+            setTopping(binding.rbAlmonds.text.toString())
+        }
+        // Set the topping of the custom Froyo to oreo
+        binding.rbOreo.setOnClickListener {
+            setTopping(binding.rbOreo.text.toString())
+        }
+
+        // Cancel the order and navigate to the Welcome screen
+        binding.bToppingsCancel.setOnClickListener { cancel() }
+        // Navigate to SauceFragment for the user to select the sauce of the Froyo
+        binding.bToppingsNext.setOnClickListener { selectSauce() }
+
+        // Set the selected topping according to the state in the ViewModel
+        viewModel.topping.observe(viewLifecycleOwner) { topping ->
+            when (topping) {
+                getString(R.string.strawberries) -> binding.rbStrawberries.isChecked = true
+                getString(R.string.kiwi) -> binding.rbKiwi.isChecked = true
+                getString(R.string.almonds) -> binding.rbAlmonds.isChecked = true
+                getString(R.string.oreo) ->
+                    binding.rbOreo.isChecked = true
+            }
+        }
+        // Enable the Button to proceed to the next screen when a topping has been selected
+        viewModel.toppingSelected.observe(viewLifecycleOwner) { enabled ->
+            binding.bToppingsNext.isEnabled = enabled
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         // Clear resources to make them eligible for garbage collection
-        binding = null
+        _binding = null
     }
 
     /**
