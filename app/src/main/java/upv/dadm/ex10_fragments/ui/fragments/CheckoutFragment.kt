@@ -16,11 +16,15 @@ import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.FragmentCheckoutBinding
 import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
 
+// Constants for confirming the order cancellation from a DialogFragment
+const val CANCEL_CONFIRMATION_REQUEST =
+    "upv.dadm.ex10_fragments.ui.fragments.CANCEL_CONFIRMATION_REQUEST"
+const val CANCEL_KEY = "upv.dadm.ex10_fragments.ui.fragments.CANCEL_KEY"
+
 /**
  * Displays a screen that lets the user submit or cancel the order.
  */
-class CheckoutFragment : Fragment(R.layout.fragment_checkout),
-    ConfirmationDialogFragment.ConfirmationDialogCallback {
+class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
 
     /**
      * Defines the methods the Activity must implement to proceed to the next screen or
@@ -48,6 +52,18 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout),
         super.onAttach(context)
         // Get a reference to the interface implementation
         callback = context as CheckoutCallback
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Set a listener for receiving the confirmation of the cancellation through a DialogFragment
+        childFragmentManager.setFragmentResultListener(
+            CANCEL_CONFIRMATION_REQUEST,
+            this
+        ) { _, bundle ->
+            // Cancel the order if the user confirmed it
+            if (bundle.getBoolean(CANCEL_KEY)) cancel()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,12 +119,4 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout),
      */
     private fun displayConfirmationDialog() =
         ConfirmationDialogFragment().show(childFragmentManager, null)
-
-    // Implements the ConfirmationDialogCallback to deal with order cancellation
-    override fun onCancelOrder() = cancel()
-
-    // Implements the ConfirmationDialogCallback for the user to keep the order
-    override fun onDoNotCancelOrder() {
-        // Do nothing, as the dialog is automatically dismissed
-    }
 }
