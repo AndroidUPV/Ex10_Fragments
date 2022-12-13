@@ -9,9 +9,7 @@ package upv.dadm.ex10_fragments.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import upv.dadm.ex10_fragments.R
@@ -37,7 +35,8 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
     private var _binding: FragmentWelcomeBinding? = null
 
     // Property valid between onCreateView() and onDestroyView()
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
     // Reference to the interface implementation
     private lateinit var callback: WelcomeCallback
@@ -58,18 +57,10 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
             })
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Get the automatically generated view binding for the layout resource
-        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
-        // Return the root element of the generated view
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Get the automatically generated view binding for the layout resource
+        _binding = FragmentWelcomeBinding.bind(view)
         // Retrieve the received arguments to personalise the welcome message for the user
         binding.tvWelcome.text =
             getString(R.string.welcome, requireArguments().getString(USERNAME))
@@ -88,7 +79,5 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
     /**
      * Notifies the activity it must navigate to the screen for size selection.
      */
-    private fun navigateToSizeSelection() {
-        callback.onWelcomeNextClicked()
-    }
+    private fun navigateToSizeSelection() = callback.onWelcomeNextClicked()
 }

@@ -54,56 +54,34 @@ class MainActivity : AppCompatActivity(), WelcomeFragment.WelcomeCallback,
     }
 
     // Implements the WelcomeFragmentCallback to manage the next Button click
-    override fun onWelcomeNextClicked() {
-        navigateToSize()
-    }
+    override fun onWelcomeNextClicked() = navigateToSize()
 
     // Implements the SizeFragmentCallback to manage the next Button click
-    override fun onSizeNextClicked() {
-        navigateToToppings()
-    }
+    override fun onSizeNextClicked() = navigateToToppings()
 
     // Implements the ToppingsFragmentCallback to manage the next Button click
-    override fun onToppingsNextClicked() {
-        navigateToSauce()
-    }
+    override fun onToppingsNextClicked() = navigateToSauce()
 
     // Implements the SauceFragmentCallback to manage the next Button click
-    override fun onSauceNextClicked() {
-        navigateToCheckout()
-    }
+    override fun onSauceNextClicked() = navigateToCheckout()
 
     // Implements the CheckoutFragmentCallback to manage the submit Button click
-    override fun onCheckoutSubmitClicked() {
-        navigateToWelcome()
-    }
+    override fun onCheckoutSubmitClicked() = navigateToWelcome()
 
     // Implements the WelcomeFragmentCallback to manage the Back Button click
-    override fun onWelcomeBackClicked() {
-        finish()
-    }
-
+    override fun onWelcomeBackClicked() = finish()
 
     // Implements the SizeFragmentCallback to manage the cancel Button click
-    override fun onSizeCancelClicked() {
-        navigateToWelcome()
-    }
+    override fun onSizeCancelClicked() = navigateToWelcome()
 
     // Implements the ToppingsFragmentCallback to manage the cancel Button click
-    override fun onToppingsCancelClicked() {
-        navigateToWelcome()
-    }
+    override fun onToppingsCancelClicked() = navigateToWelcome()
 
     // Implements the SauceFragmentCallback to manage the cancel Button click
-    override fun onSauceCancelClicked() {
-        navigateToWelcome()
-    }
+    override fun onSauceCancelClicked() = navigateToWelcome()
 
     // Implements the CheckoutFragmentCallback to manage the cancel Button click
-    override fun onCheckoutCancelClicked() {
-        navigateToWelcome()
-    }
-
+    override fun onCheckoutCancelClicked() = navigateToWelcome()
 
     /**
      * Navigates to the screen to select the size of the Froyo.
@@ -168,9 +146,8 @@ class MainActivity : AppCompatActivity(), WelcomeFragment.WelcomeCallback,
     /**
      * Navigates to the welcome screen.
      */
-    private fun navigateToWelcome() {
+    private fun navigateToWelcome() =
         // Pop transactions from the BackStack until reaching, and including, that labelled WELCOME
         supportFragmentManager.popBackStack(WELCOME, 0)
-    }
 
 }

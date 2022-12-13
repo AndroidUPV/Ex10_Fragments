@@ -9,9 +9,7 @@ package upv.dadm.ex10_fragments.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import upv.dadm.ex10_fragments.R
@@ -21,7 +19,8 @@ import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
 /**
  * Displays a screen that lets the user submit or cancel the order.
  */
-class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDialogCallback {
+class CheckoutFragment : Fragment(R.layout.fragment_checkout),
+    ConfirmationDialogFragment.ConfirmationDialogCallback {
 
     /**
      * Defines the methods the Activity must implement to proceed to the next screen or
@@ -39,20 +38,11 @@ class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDial
     private var _binding: FragmentCheckoutBinding? = null
 
     // Property valid between onCreateView() and onDestroyView()
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
     // Reference to the interface implementation
     private lateinit var callback: CheckoutCallback
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Get the automatically generated view binding for the layout resource
-        _binding = FragmentCheckoutBinding.inflate(inflater, container, false)
-        // Return the root element of the generated view
-        return binding.root
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,6 +52,8 @@ class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDial
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Get the automatically generated view binding for the layout resource
+        _binding = FragmentCheckoutBinding.bind(view)
         // Display a dialog to ask the user for confirmation before cancelling the order
         binding.bCancel.setOnClickListener { displayConfirmationDialog() }
         // Submit the order and navigate to the Welcome screen
@@ -109,14 +101,11 @@ class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDial
     /**
      * Displays a dialog asking the user for confirmation before cancelling the order.
      */
-    private fun displayConfirmationDialog() {
+    private fun displayConfirmationDialog() =
         ConfirmationDialogFragment().show(childFragmentManager, null)
-    }
 
     // Implements the ConfirmationDialogCallback to deal with order cancellation
-    override fun onCancelOrder() {
-        cancel()
-    }
+    override fun onCancelOrder() = cancel()
 
     // Implements the ConfirmationDialogCallback for the user to keep the order
     override fun onDoNotCancelOrder() {

@@ -9,9 +9,7 @@ package upv.dadm.ex10_fragments.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import upv.dadm.ex10_fragments.R
@@ -22,7 +20,7 @@ import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
  * Displays a screen that lets the user select the sauce for the Froyo.
  * The user can proceed to the checkout or cancel the order.
  */
-class SauceFragment : Fragment() {
+class SauceFragment : Fragment(R.layout.fragment_sauce) {
 
     /**
      * Defines the methods the Activity must implement to proceed to the next screen or
@@ -40,20 +38,11 @@ class SauceFragment : Fragment() {
     private var _binding: FragmentSauceBinding? = null
 
     // Property valid between onCreateView() and onDestroyView()
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding!!
 
     // Reference to the interface implementation
     private lateinit var callback: SauceCallback
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        // Get the automatically generated view binding for the layout resource
-        _binding = FragmentSauceBinding.inflate(inflater, container, false)
-        // Return the root element of the generated view
-        return binding.root
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -63,6 +52,8 @@ class SauceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Get the automatically generated view binding for the layout resource
+        _binding = FragmentSauceBinding.bind(view)
         // Set the sauce of the custom Froyo to chocolate
         binding.rbChocolate.setOnClickListener {
             setSauce(binding.rbChocolate.text.toString())
@@ -109,16 +100,12 @@ class SauceFragment : Fragment() {
     /**
      * Updates the sauce of the selected Froyo in the ViewModel.
      */
-    private fun setSauce(sauce: String) {
-        viewModel.setSauce(sauce)
-    }
+    private fun setSauce(sauce: String) = viewModel.setSauce(sauce)
 
     /**
      * Notifies the activity it must navigate to the screen for checkout.
      */
-    private fun proceedToCheckout() {
-        callback.onSauceNextClicked()
-    }
+    private fun proceedToCheckout() = callback.onSauceNextClicked()
 
     /**
      * Clears the state in the ViewModel and
