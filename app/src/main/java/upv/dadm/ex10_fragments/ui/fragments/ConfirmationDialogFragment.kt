@@ -23,12 +23,18 @@ class ConfirmationDialogFragment : DialogFragment() {
      * Defines the methods the parent Fragment must implement to cancel or keep the current order.
      */
     interface ConfirmationDialogCallback {
-        fun onCancel()
-        fun onDoNotCancel()
+        fun onCancelOrder()
+        fun onDoNotCancelOrder()
     }
 
     // Reference to the interface implementation
     private lateinit var callback: ConfirmationDialogCallback
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Get a reference to the interface implementation
+        callback = parentFragment as ConfirmationDialogCallback
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Create the desired dialog
@@ -37,18 +43,14 @@ class ConfirmationDialogFragment : DialogFragment() {
             .setMessage(R.string.dialog_message)
             .setPositiveButton(R.string.dialog_yes) { _, _ ->
                 // Yes, the user wants to cancel the order
-                callback.onCancel()
+                callback.onCancelOrder()
+                dismiss()
             }
             .setNegativeButton(R.string.dialog_no) { _, _ ->
                 // No, the user wants to keep the order
-                callback.onDoNotCancel()
+                callback.onDoNotCancelOrder()
+                dismiss()
             }
             .create()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        // Get a reference to the interface implementation
-        callback = parentFragment as ConfirmationDialogCallback
     }
 }

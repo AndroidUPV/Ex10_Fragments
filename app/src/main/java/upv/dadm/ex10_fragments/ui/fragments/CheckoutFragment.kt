@@ -114,12 +114,12 @@ class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDial
     }
 
     // Implements the ConfirmationDialogCallback to deal with order cancellation
-    override fun onCancel() {
+    override fun onCancelOrder() {
         cancel()
     }
 
     // Implements the ConfirmationDialogCallback for the user to keep the order
-    override fun onDoNotCancel() {
+    override fun onDoNotCancelOrder() {
         // Do nothing, as the dialog is automatically dismissed
     }
 }
