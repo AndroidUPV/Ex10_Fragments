@@ -25,7 +25,7 @@ const val CHECKOUT = "upv.dadm.ex10_fragments.ui.activities.CHECKOUT"
 /**
  * Let users customize their Froyo (size, toppings, and sauce) and place their order.
  */
-class MainActivity : AppCompatActivity(),
+class MainActivity : AppCompatActivity(), WelcomeFragment.WelcomeCallback,
     SizeFragment.SizeCallback, ToppingsFragment.ToppingsCallback,
     SauceFragment.SauceCallback, CheckoutFragment.CheckoutCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +53,11 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    // Implements the WelcomeFragmentCallback to manage the next Button click
+    override fun onWelcomeNextClicked() {
+        navigateToSize()
+    }
+
     // Implements the SizeFragmentCallback to manage the next Button click
     override fun onSizeNextClicked() {
         navigateToToppings()
@@ -72,6 +77,12 @@ class MainActivity : AppCompatActivity(),
     override fun onCheckoutSubmitClicked() {
         navigateToWelcome()
     }
+
+    // Implements the WelcomeFragmentCallback to manage the Back Button click
+    override fun onWelcomeBackClicked() {
+        finish()
+    }
+
 
     // Implements the SizeFragmentCallback to manage the cancel Button click
     override fun onSizeCancelClicked() {
@@ -97,7 +108,7 @@ class MainActivity : AppCompatActivity(),
     /**
      * Navigates to the screen to select the size of the Froyo.
      */
-    fun navigateToSize() {
+    private fun navigateToSize() {
         // Execute operations on a FragmentTransaction and commit it
         supportFragmentManager.commit {
             // Optimise animations
@@ -161,4 +172,5 @@ class MainActivity : AppCompatActivity(),
         // Pop transactions from the BackStack until reaching, and including, that labelled WELCOME
         supportFragmentManager.popBackStack(WELCOME, 0)
     }
+
 }

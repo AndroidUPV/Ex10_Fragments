@@ -50,7 +50,7 @@ class SauceFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Get the automatically generated view binding for the layout resource
-        _binding = FragmentSauceBinding.inflate(layoutInflater)
+        _binding = FragmentSauceBinding.inflate(inflater, container, false)
         // Return the root element of the generated view
         return binding.root
     }

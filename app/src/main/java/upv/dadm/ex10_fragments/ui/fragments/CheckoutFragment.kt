@@ -49,7 +49,7 @@ class CheckoutFragment : Fragment(), ConfirmationDialogFragment.ConfirmationDial
         savedInstanceState: Bundle?
     ): View {
         // Get the automatically generated view binding for the layout resource
-        _binding = FragmentCheckoutBinding.inflate(layoutInflater)
+        _binding = FragmentCheckoutBinding.inflate(inflater, container, false)
         // Return the root element of the generated view
         return binding.root
     }

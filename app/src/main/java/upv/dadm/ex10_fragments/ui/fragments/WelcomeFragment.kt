@@ -16,7 +16,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.FragmentWelcomeBinding
-import upv.dadm.ex10_fragments.ui.activities.MainActivity
 
 const val USERNAME = "upv.dadm.ex10_fragments.ui.fragments.WelcomeFragment.USERNAME"
 
@@ -25,21 +24,36 @@ const val USERNAME = "upv.dadm.ex10_fragments.ui.fragments.WelcomeFragment.USERN
  */
 class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
 
+    /**
+     * Defines the methods the Activity must implement to proceed to the next screen or
+     * finish the app.
+     */
+    interface WelcomeCallback {
+        fun onWelcomeNextClicked()
+        fun onWelcomeBackClicked()
+    }
+
     // Backing property to resource binding
     private var _binding: FragmentWelcomeBinding? = null
 
     // Property valid between onCreateView() and onDestroyView()
     private val binding get() = _binding!!
 
+    // Reference to the interface implementation
+    private lateinit var callback: WelcomeCallback
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        // Get a reference to the interface implementation
+        callback = context as WelcomeCallback
+
         // Register a callback for finishing the app when Back is pressed.
         // Otherwise, WelcomeFragment will be popped from the BackStack and
         // we will end up with a blank activity.
         requireActivity().onBackPressedDispatcher.addCallback(
-            this, object : OnBackPressedCallback(true) {
+            this@WelcomeFragment, object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    requireActivity().finish()
+                    callback.onWelcomeBackClicked()
                 }
             })
     }
@@ -49,7 +63,7 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
         savedInstanceState: Bundle?
     ): View {
         // Get the automatically generated view binding for the layout resource
-        _binding = FragmentWelcomeBinding.inflate(layoutInflater)
+        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
         // Return the root element of the generated view
         return binding.root
     }
@@ -75,6 +89,6 @@ class WelcomeFragment : Fragment(R.layout.fragment_welcome) {
      * Notifies the activity it must navigate to the screen for size selection.
      */
     private fun navigateToSizeSelection() {
-        (requireActivity() as MainActivity).navigateToSize()
+        callback.onWelcomeNextClicked()
     }
 }
