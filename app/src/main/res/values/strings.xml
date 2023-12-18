@@ -24,7 +24,7 @@
     <!--Strings related to the ToppingsFragment-->
     <string name="toppings_title">Select the toppings for your Froyo:</string>
     <string name="strawberries">Strawberries</string>
-    <string name="kiwi">Wiki</string>
+    <string name="kiwi">Kiwi</string>
     <string name="almonds">Almond crocanti</string>
     <string name="oreo">Oreo</string>
     <string name="empty_toppings">You must select the toppings for your Froyo before proceeding</string>
