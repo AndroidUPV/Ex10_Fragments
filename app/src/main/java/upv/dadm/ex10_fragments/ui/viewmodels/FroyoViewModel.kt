@@ -1,16 +1,20 @@
 /*
- * Copyright (c) 2022
- * David de Andrés and Juan Carlos Ruiz
- * Development of apps for mobile devices
- * Universitat Politècnica de València
+ * Copyright (c) 2022-2023 Universitat Politècnica de València
+ * Authors: David de Andrés and Juan Carlos Ruiz
+ *          Fault-Tolerant Systems
+ *          Instituto ITACA
+ *          Universitat Politècnica de València
+ *
+ * Distributed under MIT license
+ * (See accompanying file LICENSE.txt)
  */
 
 package upv.dadm.ex10_fragments.ui.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 
 /**
  * Holds the state (size, topping, sauce) of the custom Froyo.
@@ -26,7 +30,7 @@ class FroyoViewModel : ViewModel() {
 
     // Whether the size has been selected (not empty))
     val sizeSelected: LiveData<Boolean>
-        get() = Transformations.map(_size) { _size.value?.isNotEmpty() }
+        get() = _size.map { _size.value?.isNotEmpty()!! }
 
     // Backing property for the size of the Froyo
     private val _topping = MutableLiveData<String>()
@@ -37,7 +41,7 @@ class FroyoViewModel : ViewModel() {
 
     // Whether the topping has been selected (not empty))
     val toppingSelected: LiveData<Boolean>
-        get() = Transformations.map(_topping) { _topping.value?.isNotEmpty() }
+        get() = _topping.map { _topping.value?.isNotEmpty()!! }
 
     // Backing property for the size of the Froyo
     private val _sauce = MutableLiveData<String>()
@@ -48,7 +52,7 @@ class FroyoViewModel : ViewModel() {
 
     // Whether the sauce has been selected (not empty))
     val sauceSelected: LiveData<Boolean>
-        get() = Transformations.map(_sauce) { _sauce.value?.isNotEmpty() }
+        get() = _sauce.map { _sauce.value?.isNotEmpty()!! }
 
     // initialized all the backing properties
     init {

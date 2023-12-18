@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2022
-  ~ David de Andrés and Juan Carlos Ruiz
-  ~ Development of apps for mobile devices
-  ~ Universitat Politècnica de València
+  ~ Copyright (c) 2022-2023 Universitat Politècnica de València
+  ~ Authors: David de Andrés and Juan Carlos Ruiz
+  ~          Fault-Tolerant Systems
+  ~          Instituto ITACA
+  ~          Universitat Politècnica de València
+  ~
+  ~ Distributed under MIT license
+  ~ (See accompanying file LICENSE.txt)
   -->
 <!--Displays the summary of the order-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +24,7 @@
         android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="@string/checkout_title"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/purple"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tvCheckoutSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +37,7 @@
         android:id="@+id/tvCheckoutSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/teal"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tvCheckoutTopping"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +49,7 @@
         android:id="@+id/tvCheckoutTopping"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/teal"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/tvCheckoutSauce"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +61,7 @@
         android:id="@+id/tvCheckoutSauce"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/teal_700"
+        android:textColor="@color/teal"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
