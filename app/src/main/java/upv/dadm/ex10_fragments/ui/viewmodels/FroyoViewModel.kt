@@ -11,81 +11,63 @@
 
 package upv.dadm.ex10_fragments.ui.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 /**
- * Holds the state (size, topping, sauce) of the custom Froyo.
+ * Holds the properties (size, topping, sauce) of the custom Froyo.
+ */
+data class Froyo(
+    val size: String,
+    val topping: String,
+    val sauce: String
+)
+
+/**
+ * Holds the the Froyo's properties and provides methods for updating them.
  */
 class FroyoViewModel : ViewModel() {
 
-    // Backing property for the size of the Froyo
-    private val _size = MutableLiveData<String>()
-
-    // Size of the Froyo
-    val size: LiveData<String>
-        get() = _size
-
-    // Whether the size has been selected (not empty))
-    val sizeSelected: LiveData<Boolean>
-        get() = _size.map { _size.value?.isNotEmpty()!! }
-
-    // Backing property for the size of the Froyo
-    private val _topping = MutableLiveData<String>()
-
-    // Topping for the Froyo
-    val topping: LiveData<String>
-        get() = _topping
-
-    // Whether the topping has been selected (not empty))
-    val toppingSelected: LiveData<Boolean>
-        get() = _topping.map { _topping.value?.isNotEmpty()!! }
-
-    // Backing property for the size of the Froyo
-    private val _sauce = MutableLiveData<String>()
-
-    // Sauce for the Froyo
-    val sauce: LiveData<String>
-        get() = _sauce
-
-    // Whether the sauce has been selected (not empty))
-    val sauceSelected: LiveData<Boolean>
-        get() = _sauce.map { _sauce.value?.isNotEmpty()!! }
-
-    // initialized all the backing properties
-    init {
-        resetOrder()
-    }
+    // UI state (mutable): Froyo's properties
+    private val _froyoUiState = MutableStateFlow(Froyo("", "", ""))
+    // Backing property (immutable)
+    val froyoUiState = _froyoUiState.asStateFlow()
 
     /**
      * Clears the selection for all the backing properties.
      */
     fun resetOrder() {
-        _size.value = ""
-        _topping.value = ""
-        _sauce.value = ""
+        _froyoUiState.update {
+            Froyo("", "", "")
+        }
     }
 
     /**
      * Sets the selected size.
      */
     fun setSize(size: String) {
-        _size.value = size
+        _froyoUiState.update { froyo ->
+            froyo.copy(size = size)
+        }
     }
 
     /**
      * Sets the selected topping.
      */
     fun setTopping(topping: String) {
-        _topping.value = topping
+        _froyoUiState.update { froyo ->
+            froyo.copy(topping = topping)
+        }
     }
 
     /**
      * Sets the selected sauce.
      */
     fun setSauce(sauce: String) {
-        _sauce.value = sauce
+        _froyoUiState.update { froyo ->
+            froyo.copy(sauce = sauce)
+        }
     }
 }

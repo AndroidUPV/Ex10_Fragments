@@ -16,6 +16,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.FragmentToppingsBinding
 import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
@@ -80,19 +84,21 @@ class ToppingsFragment : Fragment(R.layout.fragment_toppings) {
         // Navigate to SauceFragment for the user to select the sauce of the Froyo
         binding.bToppingsNext.setOnClickListener { selectSauce() }
 
-        // Set the selected topping according to the state in the ViewModel
-        viewModel.topping.observe(viewLifecycleOwner) { topping ->
-            when (topping) {
-                getString(R.string.strawberries) -> binding.rbStrawberries.isChecked = true
-                getString(R.string.kiwi) -> binding.rbKiwi.isChecked = true
-                getString(R.string.almonds) -> binding.rbAlmonds.isChecked = true
-                getString(R.string.oreo) ->
-                    binding.rbOreo.isChecked = true
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.froyoUiState.collect { froyo ->
+                    // Set the selected topping according to the state in the ViewModel
+                    when (froyo.topping) {
+                        getString(R.string.strawberries) -> binding.rbStrawberries.isChecked = true
+                        getString(R.string.kiwi) -> binding.rbKiwi.isChecked = true
+                        getString(R.string.almonds) -> binding.rbAlmonds.isChecked = true
+                        getString(R.string.oreo) ->
+                            binding.rbOreo.isChecked = true
+                    }
+                    // Enable the Button to proceed to the next screen when a topping has been selected
+                    binding.bToppingsNext.isEnabled = froyo.topping.isNotEmpty()
+                }
             }
-        }
-        // Enable the Button to proceed to the next screen when a topping has been selected
-        viewModel.toppingSelected.observe(viewLifecycleOwner) { enabled ->
-            binding.bToppingsNext.isEnabled = enabled
         }
     }
 
@@ -113,11 +119,9 @@ class ToppingsFragment : Fragment(R.layout.fragment_toppings) {
     private fun selectSauce() = callback.onToppingsNextClicked()
 
     /**
-     * Clears the state in the ViewModel and
-     * notifies the activity it must navigate to the welcome screen.
+     * Notifies the activity it must navigate to the welcome screen.
      */
     private fun cancel() {
-        viewModel.resetOrder()
         callback.onToppingsCancelClicked()
     }
 }

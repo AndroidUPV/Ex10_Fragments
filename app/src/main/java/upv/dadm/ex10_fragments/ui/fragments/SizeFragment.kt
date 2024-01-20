@@ -16,6 +16,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.FragmentSizeBinding
 import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
@@ -80,19 +84,21 @@ class SizeFragment : Fragment(R.layout.fragment_size) {
         // Navigate to ToppingsFragment for the user to select the toppings of the Froyo
         binding.bSizeNext.setOnClickListener { selectToppings() }
 
-        // Set the selected size according to the state in the ViewModel
-        viewModel.size.observe(viewLifecycleOwner) { size ->
-            when (size) {
-                getString(R.string.size_small) -> binding.rbSmall.isChecked = true
-                getString(R.string.size_medium) -> binding.rbMedium.isChecked = true
-                getString(R.string.size_large) -> binding.rbLarge.isChecked = true
-                getString(R.string.size_extra_large) ->
-                    binding.rbExtraLarge.isChecked = true
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.froyoUiState.collect { froyo ->
+                    // Set the selected size according to the state in the ViewModel
+                    when (froyo.size) {
+                        getString(R.string.size_small) -> binding.rbSmall.isChecked = true
+                        getString(R.string.size_medium) -> binding.rbMedium.isChecked = true
+                        getString(R.string.size_large) -> binding.rbLarge.isChecked = true
+                        getString(R.string.size_extra_large) ->
+                            binding.rbExtraLarge.isChecked = true
+                    }
+                    // Enable the Button to proceed to the next screen when a size has been selected
+                    binding.bSizeNext.isEnabled = froyo.size.isNotEmpty()
+                }
             }
-        }
-        // Enable the Button to proceed to the next screen when a size has been selected
-        viewModel.sizeSelected.observe(viewLifecycleOwner) { enabled ->
-            binding.bSizeNext.isEnabled = enabled
         }
     }
 
@@ -113,11 +119,9 @@ class SizeFragment : Fragment(R.layout.fragment_size) {
     private fun selectToppings() = callback.onSizeNextClicked()
 
     /**
-     * Clears the state in the ViewModel and
-     * notifies the activity it must navigate to the welcome screen.
+     * Notifies the activity it must navigate to the welcome screen.
      */
     private fun cancel() {
-        viewModel.resetOrder()
         callback.onSizeCancelClicked()
     }
 }

@@ -16,19 +16,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.FragmentCheckoutBinding
+import upv.dadm.ex10_fragments.ui.viewmodels.CancelOrderViewModel
 import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
-
-// Constants for confirming the order cancellation from a DialogFragment
-const val CANCEL_CONFIRMATION_REQUEST =
-    "upv.dadm.ex10_fragments.ui.fragments.CANCEL_CONFIRMATION_REQUEST"
-const val CANCEL_KEY = "upv.dadm.ex10_fragments.ui.fragments.CANCEL_KEY"
 
 /**
  * Displays a screen that lets the user submit or cancel the order.
  */
 class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
+
+    // Reference to a ViewModel shared with the ConfirmationDialogFragment
+    private val cancelOrderViewModel: CancelOrderViewModel by activityViewModels()
 
     /**
      * Defines the methods the Activity must implement to proceed to the next screen or
@@ -58,18 +61,6 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         callback = context as CheckoutCallback
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // Set a listener for receiving the confirmation of the cancellation through a DialogFragment
-        childFragmentManager.setFragmentResultListener(
-            CANCEL_CONFIRMATION_REQUEST,
-            this
-        ) { _, bundle ->
-            // Cancel the order if the user confirmed it
-            if (bundle.getBoolean(CANCEL_KEY)) cancel()
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Get the automatically generated view binding for the layout resource
@@ -79,18 +70,26 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
         // Submit the order and navigate to the Welcome screen
         binding.bSubmit.setOnClickListener { submitOrder() }
 
-        // Display the selected size according to the state in the ViewModel
-        viewModel.size.observe(viewLifecycleOwner) { size ->
-            binding.tvCheckoutSize.text = getString(R.string.checkout_size, size)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.froyoUiState.collect { froyo ->
+                    // Display the selected size, topping, and sauce according to the state in the ViewModel
+                    binding.tvCheckoutSize.text = getString(R.string.checkout_size, froyo.size)
+                    binding.tvCheckoutTopping.text =
+                        getString(R.string.checkout_toppings, froyo.topping)
+                    binding.tvCheckoutSauce.text = getString(R.string.checkout_sauce, froyo.sauce)
+                }
+            }
         }
-        // Display the selected topping according to the state in the ViewModel
-        viewModel.topping.observe(viewLifecycleOwner) { topping ->
-            binding.tvCheckoutTopping.text = getString(R.string.checkout_toppings, topping)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                cancelOrderViewModel.cancelOrder.collect { cancel ->
+                    if (cancel) cancel()
+                }
+            }
         }
-        // Display the selected sauce according to the state in the ViewModel
-        viewModel.sauce.observe(viewLifecycleOwner) { sauce ->
-            binding.tvCheckoutSauce.text = getString(R.string.checkout_sauce, sauce)
-        }
+
     }
 
     override fun onDestroyView() {
@@ -105,16 +104,16 @@ class CheckoutFragment : Fragment(R.layout.fragment_checkout) {
      * It has the same effect as cancel(), but this is supposed to actually submit the order.
      */
     private fun submitOrder() {
-        viewModel.resetOrder()
         callback.onCheckoutSubmitClicked()
     }
 
     /**
-     * Clears the state in the ViewModel and
+     * Clears the state in the ViewModel,
+     * resets the cancel state and
      * notifies the activity it must navigate to the welcome screen.
      */
     private fun cancel() {
-        viewModel.resetOrder()
+        cancelOrderViewModel.resetCancel()
         callback.onCheckoutCancelClicked()
     }
 

@@ -14,14 +14,18 @@ package upv.dadm.ex10_fragments.ui.fragments
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import upv.dadm.ex10_fragments.R
+import upv.dadm.ex10_fragments.ui.viewmodels.CancelOrderViewModel
 
 /**
  * Displays a dialog to ask the user for confirmation before cancelling the current order.
  */
 class ConfirmationDialogFragment : DialogFragment() {
+
+    // Reference to a ViewModel shared with the CheckoutFragment
+    private val cancelOrderViewModel: CancelOrderViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Create the desired dialog
@@ -30,25 +34,16 @@ class ConfirmationDialogFragment : DialogFragment() {
             .setMessage(R.string.dialog_message)
             .setPositiveButton(R.string.dialog_yes) { _, _ ->
                 // Yes, the user wants to cancel the order
-                cancelOrder(true)
+                cancelOrderViewModel.cancelOrder()
                 // Dismiss the dialog
                 dismiss()
             }
             .setNegativeButton(R.string.dialog_no) { _, _ ->
                 // No, the user wants to keep the order
-                cancelOrder(false)
+                cancelOrderViewModel.proceedWithOrder()
                 // Dismiss the dialog
                 dismiss()
             }
             .create()
-    }
-
-    /**
-     * Sets the cancel result for the give request key.
-     */
-    private fun cancelOrder(cancel: Boolean) {
-        parentFragmentManager.setFragmentResult(
-            CANCEL_CONFIRMATION_REQUEST, bundleOf(CANCEL_KEY to cancel)
-        )
     }
 }

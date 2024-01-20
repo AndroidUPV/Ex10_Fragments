@@ -16,6 +16,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.FragmentSauceBinding
 import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
@@ -80,18 +84,20 @@ class SauceFragment : Fragment(R.layout.fragment_sauce) {
         // Navigate to CheckoutFragment for the user to submit the order
         binding.bSauceNext.setOnClickListener { proceedToCheckout() }
 
-        // Set the selected sauce according to the state in the ViewModel
-        viewModel.sauce.observe(viewLifecycleOwner) { sauce ->
-            when (sauce) {
-                getString(R.string.chocolate) -> binding.rbChocolate.isChecked = true
-                getString(R.string.fruits) -> binding.rbFruit.isChecked = true
-                getString(R.string.honey) -> binding.rbHoney.isChecked = true
-                getString(R.string.mango) -> binding.rbMango.isChecked = true
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.froyoUiState.collect { froyo ->
+                    // Set the selected sauce according to the state in the ViewModel
+                    when (froyo.sauce) {
+                        getString(R.string.chocolate) -> binding.rbChocolate.isChecked = true
+                        getString(R.string.fruits) -> binding.rbFruit.isChecked = true
+                        getString(R.string.honey) -> binding.rbHoney.isChecked = true
+                        getString(R.string.mango) -> binding.rbMango.isChecked = true
+                    }
+                    // Enable the Button to proceed to the next screen when a sauce has been selected
+                    binding.bSauceNext.isEnabled = froyo.sauce.isNotEmpty()
+                }
             }
-        }
-        // Enable the Button to proceed to the next screen when a sauce has been selected
-        viewModel.sauceSelected.observe(viewLifecycleOwner) { enabled ->
-            binding.bSauceNext.isEnabled = enabled
         }
     }
 
@@ -112,11 +118,9 @@ class SauceFragment : Fragment(R.layout.fragment_sauce) {
     private fun proceedToCheckout() = callback.onSauceNextClicked()
 
     /**
-     * Clears the state in the ViewModel and
-     * notifies the activity it must navigate to the welcome screen.
+     * Notifies the activity it must navigate to the welcome screen.
      */
     private fun cancel() {
-        viewModel.resetOrder()
         callback.onSauceCancelClicked()
     }
 

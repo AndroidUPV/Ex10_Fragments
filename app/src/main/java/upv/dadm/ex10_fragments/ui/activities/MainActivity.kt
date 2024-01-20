@@ -12,12 +12,19 @@
 package upv.dadm.ex10_fragments.ui.activities
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import upv.dadm.ex10_fragments.R
 import upv.dadm.ex10_fragments.databinding.ActivityMainBinding
-import upv.dadm.ex10_fragments.ui.fragments.*
+import upv.dadm.ex10_fragments.ui.fragments.CheckoutFragment
+import upv.dadm.ex10_fragments.ui.fragments.SauceFragment
+import upv.dadm.ex10_fragments.ui.fragments.SizeFragment
+import upv.dadm.ex10_fragments.ui.fragments.ToppingsFragment
+import upv.dadm.ex10_fragments.ui.fragments.USERNAME
+import upv.dadm.ex10_fragments.ui.fragments.WelcomeFragment
+import upv.dadm.ex10_fragments.ui.viewmodels.FroyoViewModel
 
 // Constants to tag the existing Fragments in the FragmentTransactions
 const val WELCOME = "upv.dadm.ex10_fragments.ui.activities.WELCOME"
@@ -29,9 +36,16 @@ const val CHECKOUT = "upv.dadm.ex10_fragments.ui.activities.CHECKOUT"
 /**
  * Let users customize their Froyo (size, toppings, and sauce) and place their order.
  */
-class MainActivity : AppCompatActivity(), WelcomeFragment.WelcomeCallback,
-    SizeFragment.SizeCallback, ToppingsFragment.ToppingsCallback,
-    SauceFragment.SauceCallback, CheckoutFragment.CheckoutCallback {
+class MainActivity : AppCompatActivity(),
+    WelcomeFragment.WelcomeCallback,
+    SizeFragment.SizeCallback,
+    ToppingsFragment.ToppingsCallback,
+    SauceFragment.SauceCallback,
+    CheckoutFragment.CheckoutCallback {
+
+    // Reference to a ViewModel shared with the fragments
+    private val viewModel: FroyoViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Get the automatically generated view binding for the layout resource
@@ -150,8 +164,11 @@ class MainActivity : AppCompatActivity(), WelcomeFragment.WelcomeCallback,
     /**
      * Navigates to the welcome screen.
      */
-    private fun navigateToWelcome() =
+    private fun navigateToWelcome() {
+        // Reset the order
+        viewModel.resetOrder()
         // Pop transactions from the BackStack until reaching, and including, that labelled WELCOME
         supportFragmentManager.popBackStack(WELCOME, 0)
+    }
 
 }
