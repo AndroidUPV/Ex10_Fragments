@@ -85,7 +85,7 @@ class SizeFragment : Fragment(R.layout.fragment_size) {
         binding.bSizeNext.setOnClickListener { selectToppings() }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.froyoUiState.collect { froyo ->
                     // Set the selected size according to the state in the ViewModel
                     when (froyo.size) {
