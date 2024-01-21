@@ -15,18 +15,10 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import upv.dadm.ex10_fragments.model.Froyo
 
 /**
- * Holds the properties (size, topping, sauce) of the custom Froyo.
- */
-data class Froyo(
-    val size: String,
-    val topping: String,
-    val sauce: String
-)
-
-/**
- * Holds the the Froyo's properties and provides methods for updating them.
+ * Holds the Froyo's properties and provides methods for updating them.
  */
 class FroyoViewModel : ViewModel() {
 
