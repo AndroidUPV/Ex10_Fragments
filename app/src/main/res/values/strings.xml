@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2022-2023 Universitat Politècnica de València
+  ~ Copyright (c) 2022-2024 Universitat Politècnica de València
   ~ Authors: David de Andrés and Juan Carlos Ruiz
   ~          Fault-Tolerant Systems
   ~          Instituto ITACA
@@ -49,4 +49,5 @@
     <string name="dialog_message">Are you sure that you want to cancel your order?</string>
     <string name="dialog_yes">Yes, cancel my order</string>
     <string name="dialog_no">No, I will think it twice</string>
+    <string name="checked_out">Your order is on its way!</string>
 </resources>
